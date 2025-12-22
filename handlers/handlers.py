@@ -26,10 +26,10 @@ router = Router()
 
 # ==================== API URL'LAR ====================
 
-API_LOGIN = "http://127.0.0.1:8000/api/auth/login/"
-API_LINK_TG = "http://127.0.0.1:8000/api/auth/link-telegram/"
-API_TASKS = "http://127.0.0.1:8000/api/tasks/"
-API_TASK_DETAIL = "http://127.0.0.1:8000/api/tasks/{id}/"
+API_LOGIN = "https://riseuply.up.railway.app/api/auth/login/"
+API_LINK_TG = "https://riseuply.up.railway.app/api/auth/link-telegram/"
+API_TASKS = "https://riseuply.up.railway.app/api/tasks/"
+API_TASK_DETAIL = "https://riseuply.up.railway.app/api/tasks/{id}/"
 
 # telegram_id -> {"access": ..., "refresh": ..., "email": ..., "username": ...}
 USER_TOKENS = {}
@@ -40,10 +40,7 @@ HTTP_SESSION: aiohttp.ClientSession | None = None
 
 
 def set_api_base(url: str):
-    """
-    Productionga chiqqanda 127.0.0.1 o'rniga domain qo'yish uchun:
-    set_api_base("https://api.riseuply.uz")
-    """
+   
     global API_LOGIN, API_LINK_TG, API_TASKS, API_TASK_DETAIL
     url = url.rstrip("/")
     API_LOGIN = f"{url}/api/auth/login/"
@@ -467,7 +464,7 @@ async def check_task_answer(message: Message, state: FSMContext):
     
     async with aiohttp.ClientSession() as session:
         await session.post(
-            "http://127.0.0.1:8000/api/stats/update/",
+            "https://riseuply.up.railway.app/api/stats/update/",
             json={"correct": correct},
             headers={"Authorization": f"Bearer {tokens['access']}"}
         )
@@ -504,7 +501,7 @@ async def reply_task_answer(message: Message):
 
     async with aiohttp.ClientSession() as session:
         await session.post(
-            "http://127.0.0.1:8000/api/stats/update/",
+            "https://riseuply.up.railway.app/api/stats/update/",
             json={"correct": correct},
             headers={"Authorization": f"Bearer {tokens['access']}"}
         )
@@ -518,46 +515,45 @@ async def start_menu(message: Message):
 
 @router.message(F.text == "✍️Qo'llanma")
 async def use(message: Message):
-    await message.answer("""👋 Xush kelibsiz!
-Siz o‘z ustida ishlaydigan, ko‘nikmalarini oshirishni istaydigan, va kelajagiga sarmoya qiladigan inson bo‘lsangiz — SkillGrow siz uchun!
+    await message.answer("""👋 RiseUp’ga xush kelibsiz!
 
-🚀 Nimalar qilishingiz mumkin?
-🔧 Ko‘nikmalarni rivojlantiring:
+Agar siz IT sohasida rivojlanishni xohlasangiz, real skill olishni va kelajagingizga sarmoya qilmoqchi bo‘lsangiz — RiseUp aynan siz uchun! 🚀
 
-Backend asoslari
+🔧 Nimalarni o‘rganasiz?
 
-Frontend boshlang‘ich tushunchalari
+• Backend asoslari (Python, Django, DRF, API)
+• Frontend boshlang‘ich tushunchalari (HTML, CSS, JavaScript)
+• Kichik darslar + amaliy topshiriqlar
 
-Kichik darslar, topshiriqlar, yo‘naltirishlar
+📌 Tasklar bilan ishlash
 
-Agar o'rganishga qiynalsangiz 🤖 Velmaro AI yordamchingiz sizga yordam beradi 😊
+RiseUp’da asosiy e’tibor — amaliyotga 💪
+Saytda yaratilgan savollarni bot orqali ishlaysiz:
 
-🧠 Savollar bering – Velmaro AI yordam beradi:
+/task — sizga berilgan savollar ro‘yxati
+Savolni tanlaysiz → javob berasiz → natijani darhol bilasiz ✅
 
-Har qanday mavzuda savol
+🤖 RiseUp AI yordamchisi
 
-Ingliz tilini o‘rganishda yordam
+Agar tushunmay qolsangiz — muammo emas 😊
+AI sizga yordam beradi:
 
-Shaxsiy reja tuzib berish
+• Har qanday mavzuni tushuntiradi
+• Kod va matnlarni izohlaydi
+• Tarjima qiladi
+• Ingliz tilini o‘rganishda yordam beradi
 
-Tarjima yoki tushunarsiz matnlar izohi
+/ask — AI’ga savol berish (har safar 1 ta savol)
 
-🤖 Velmaro AI dan ingliz tilida foydalanishingiz mumkin ingliz tilda rivojlanish hamda o'sish sari
+🎯 Qanday boshlash kerak?
 
-🇬🇧 Ingliz tilini o‘rganish uchun foydali
-🧠 Siz Velmaro AI yordamida quyidagilarni qilishingiz mumkin:
+1️⃣ /course — yo‘nalishni tanlang
+2️⃣ O‘rganing va mashq qiling
+3️⃣ /task — bilimni tekshiring
+4️⃣ /ask — AI’dan yordam oling
 
-Matn tarjimasi
-
-So‘z va iboralarni tushuntirish
-
-Inglizcha gap tuzish mashqlari
-
-Speaking va writing odatlarini shakllantirish
-
-✅ Siz so‘ragan mavzuni tushunarli va oddiy izohlab beradi
-
-🤖 Velmaro AI dan /ask buyrug'ini bosib foydalanishingiz mumkin har safar 1 martalik savol bilan 
+🚀 RiseUp bilan har kuni bir qadam oldinga!
+O‘rganing • Amaliyot qiling • O‘sib boring 💙
 """)
 
 # ==================== Kurslar menyusi ====================
