@@ -26,10 +26,11 @@ router = Router()
 
 # ==================== API URL'LAR ====================
 
-API_LOGIN = "https://riseuply.up.railway.app/api/auth/login/"
-API_LINK_TG = "https://riseuply.up.railway.app/api/auth/link-telegram/"
-API_TASKS = "https://riseuply.up.railway.app/api/tasks/"
-API_TASK_DETAIL = "https://riseuply.up.railway.app/api/tasks/{id}/"
+API_LOGIN = "http://127.0.0.1:8000/api/auth/login/"
+API_LINK_TG = "http://127.0.0.1:8000/api/auth/link-telegram/"
+API_TASKS = "http://127.0.0.1:8000/api/tasks/"
+API_TASK_DETAIL = "http://127.0.0.1:8000/api/tasks/{id}/"
+
 
 # telegram_id -> {"access": ..., "refresh": ..., "email": ..., "username": ...}
 USER_TOKENS = {}
@@ -231,7 +232,8 @@ async def start(message: Message, state: FSMContext):
             "Siz allaqachon akkauntingizni botga bog‘lab bo‘lgansiz ✅\n\n"
             "Quyidagi buyruqlardan foydalanishingiz mumkin:\n"
             "📌 /task — sayt orqali yaratilgan savollaringiz ro'yxati\n"
-            "📌 /course — kurslar menyusi\n\n"
+            "📌 /course — kurslar menyusi\n"
+            "📌 /help — qo'llanma\n\n"
             "Yangi savollar yaratish uchun yoki natijangizni bilish uchun riseuply.uz saytiga kiring 😉"
         )
         return
@@ -296,7 +298,10 @@ async def get_password(message: Message, state: FSMContext):
         f"✅ Akkauntingiz botga muvaffaqiyatli bog‘landi!\n"
         f"Xush kelibsiz, {username.title()}! 🎉\n\n"
         f"📌/task — sayt orqali yaratilgan savollaringiz ro'yxati\n"
-        f"📌/course — kurslar menyusi"
+        f"📌/course — kurslar menyusi\n"
+        f"📌/ai - RiseUp AI yordamchi\n"
+        f"📌/help — qo'llanma"
+        f"\n\nYangi savollar yaratish uchun yoki natijangizni bilish uchun riseuply.uz saytiga kiring 😉"
     )
     await state.clear()
 
@@ -512,49 +517,6 @@ async def reply_task_answer(message: Message):
 async def start_menu(message: Message):
     await message.answer("Maroqli o'rganing😉", reply_markup=web)
 
-
-@router.message(F.text == "✍️Qo'llanma")
-async def use(message: Message):
-    await message.answer("""👋 RiseUp’ga xush kelibsiz!
-
-Agar siz IT sohasida rivojlanishni xohlasangiz, real skill olishni va kelajagingizga sarmoya qilmoqchi bo‘lsangiz — RiseUp aynan siz uchun! 🚀
-
-🔧 Nimalarni o‘rganasiz?
-
-• Backend asoslari (Python, Django, DRF, API)
-• Frontend boshlang‘ich tushunchalari (HTML, CSS, JavaScript)
-• Kichik darslar + amaliy topshiriqlar
-
-📌 Tasklar bilan ishlash
-
-RiseUp’da asosiy e’tibor — amaliyotga 💪
-Saytda yaratilgan savollarni bot orqali ishlaysiz:
-
-/task — sizga berilgan savollar ro‘yxati
-Savolni tanlaysiz → javob berasiz → natijani darhol bilasiz ✅
-
-🤖 RiseUp AI yordamchisi
-
-Agar tushunmay qolsangiz — muammo emas 😊
-AI sizga yordam beradi:
-
-• Har qanday mavzuni tushuntiradi
-• Kod va matnlarni izohlaydi
-• Tarjima qiladi
-• Ingliz tilini o‘rganishda yordam beradi
-
-/ask — AI’ga savol berish (har safar 1 ta savol)
-
-🎯 Qanday boshlash kerak?
-
-1️⃣ /course — yo‘nalishni tanlang
-2️⃣ O‘rganing va mashq qiling
-3️⃣ /task — bilimni tekshiring
-4️⃣ /ask — AI’dan yordam oling
-
-🚀 RiseUp bilan har kuni bir qadam oldinga!
-O‘rganing • Amaliyot qiling • O‘sib boring 💙
-""")
 
 # ==================== Kurslar menyusi ====================
 

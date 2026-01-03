@@ -7,9 +7,7 @@ web = ReplyKeyboardMarkup(
         KeyboardButton(text = "Frontend"),
         KeyboardButton(text = "Boost kurs")
     ],
-    [
-        KeyboardButton(text = "✍️Qo'llanma")
-    ]
+    
 ],
     resize_keyboard=True,
     one_time_keyboard = True
